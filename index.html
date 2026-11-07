@@ -103,6 +103,7 @@ button,select,input{font-family:inherit;color:var(--ink)}
 .blank.ok{color:var(--ok);border-bottom-color:var(--ok-edge)}
 .blank.no{color:var(--bad);border-bottom-color:var(--bad-edge)}
 .q .m.tr{font-size:16px;margin:2px 8px 6px}
+.exit{font:inherit;font-size:13px;padding:3px 10px;border:1px solid var(--edge);background:var(--panel);color:var(--sub);cursor:pointer;border-radius:0}
 .wsrow{padding:10px 0;border-bottom:1px solid var(--line)}
 .exm{color:var(--sub);font-size:14px}
 .logrow{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
@@ -848,8 +849,9 @@ function rStart(m){
 function rGame(m){
   if(!started){rStart(m);return}
   if(!G)newGame();
-  const w=el('div','bar');const back=el('button','chip','처음으로');
-  back.onclick=()=>{leaveGame();render()};w.append(back);m.append(w);
+  const ex=el('button','exit','나가기');
+  ex.onclick=()=>{if(G&&!G.over&&!confirm('게임을 그만하고 처음 화면으로 갈까요?'))return;leaveGame();render()};
+  const pr=$('#prog');pr.textContent='';pr.append(ex);
   if(G.over){G.state='result';rResult(m);return}
   G.state='ask';
   const hud=el('div','hud');hud.id='hud';hud.innerHTML=hudHtml();m.append(hud);
@@ -1077,10 +1079,6 @@ function resolve(ok,timeout,fb){
   else if(ok&&!G.queue.length){G.over=true;G.cleared=true;G.score+=G.lives*200;sfx.end()}
   const retry=!ok&&retryFn&&!G.over;
   if(retry)retryFn();
-  if(!ok||G.over||cfg.read){
-    const nb=el('button','btn line skip','다음');nb.onclick=autoAdvance;
-    if(retry)document.querySelector('.q').append(nb);else fb.after(nb);
-  }
   if(!retry)tm=setTimeout(autoAdvance,ok?(cfg.read?1200:(G.over?1100:650)):2300);
 }
 function grade(){
@@ -1105,7 +1103,7 @@ function rResult(m){
   const r=el('div','row2');
   const a=el('button','btn','다시 도전');a.onclick=restart;r.append(a);
   if(G.missed.length){const w=el('button','btn line','틀린 단어만');w.onclick=()=>{range='wrong';saveCfg();restart()};r.append(w)}
-  m.append(r);head();
+  m.append(r);
 }
 document.addEventListener('keydown',e=>{
   if(tab!=='game'||!G)return;
