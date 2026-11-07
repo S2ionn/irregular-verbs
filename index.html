@@ -886,7 +886,7 @@ function rGame(m){
     sd.append(document.createTextNode(parts[0]));
     sd.append(el('span','blank','?'));
     sd.append(document.createTextNode(parts.slice(1).join('___')));
-    box.append(el('div','m',gradeName(sn.g)+'  '+mclean(v.m)),sd);
+    box.append(sd);
     if(sn.k)box.append(el('div','m tr',sn.k));
     box.append(el('div','m','('+v.b+')'));
     if(cfg.mode==='choose'){
