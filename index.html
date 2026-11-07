@@ -824,12 +824,12 @@ function segOf(list,cur,fn){
 }
 function contentBox(){
   const E={
-    mix:['go - ( ? ) - ( ? )','Yesterday we ( ? ) to the zoo.  (go)'],
-    form:['go - ( ? ) - ( ? )'],
-    mean:['go 의 뜻은?   가다 / 먹다 / 자다 / 사다'],
-    sent:['Yesterday we ( ? ) to the zoo.  (go)']
+    mix:['go - went - gone','go = 가다','Yesterday we ____ to the zoo.'],
+    form:['go - went - gone'],
+    mean:['go = 가다'],
+    sent:['Yesterday we ____ to the zoo.']
   };
-  const mixEx=cfg.mode==='write'?E.mix:['go - ( ? ) - ( ? )','go 의 뜻은?   가다 / 먹다 / 자다 / 사다','Yesterday we ( ? ) to the zoo.  (go)'];
+  const mixEx=cfg.mode==='write'?['go - went - gone','Yesterday we ____ to the zoo.']:E.mix;
   const list=cfg.mode==='write'
     ?[['mix','활용형과 문장','두 가지 유형이 섞여 나와요.',mixEx],['form','활용형만','과거형, 과거분사형을 채워요',E.form],['sent','문장 빈칸만','문장 속 빈칸에 알맞은 형태를 넣어요.',E.sent]]
     :[['mix','활용형, 뜻, 문장','세 가지 유형이 섞여 나와요.',mixEx],['form','활용형만','과거형, 과거분사형을 채워요',E.form],['mean','뜻만','영어 단어를 보고 우리말 뜻을 골라요.',E.mean],['sent','문장 빈칸만','문장 속 빈칸에 알맞은 형태를 넣어요.',E.sent]];
@@ -843,7 +843,7 @@ function contentBox(){
   return wrap;
 }
 function askBox(){
-  const L=[['both','둘 다','과거형과 과거분사형을 모두 물어요',['go - ( ? ) - ( ? )']],['p','과거형만','과거형만 물어요',['go - ( ? )']],['pp','과거분사형만','과거분사형만 물어요',['go - ( ? )']]];
+  const L=[['both','둘 다','과거형과 과거분사형을 모두 물어요',['go - went - gone']],['p','과거형만','과거형만 물어요',['go - went']],['pp','과거분사형만','과거분사형만 물어요',['go - gone']]];
   const wrap=el('div','opts');
   L.forEach(([k,n,d,ex])=>{
     const bt=el('button','opt'+((cfg.ask||'both')===k?' on':''));
